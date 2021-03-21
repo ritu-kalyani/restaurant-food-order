@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{product.product_name}}
+{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+               <img src="/media/{{product.image}}" width="280" height="300" alt="">
+            </div>
+            <div class="row">
+              <a href="/shop/checkout/"><button class="btn btn-primary my-3 mx-3">CheckOut</button></a>
+                <a href="/shop/"><button class="btn btn-primary my-3 mx-3">Back to menu</button></a>
+            </div>
+
+
+
+        </div>
+
+        <div class="col-md-8">
+
+            <h3><b>Item : </b>{{product.product_name}}</h3>
+            <h3><b>Category : </b>{{product.category}}</h3><br>
+            <p>{{product.desc}}</p>
+
+            <p><b>Price : {{product.price}}</b></p>
+           
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block js %}
+{% endblock%}
