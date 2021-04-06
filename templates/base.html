@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,7 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="shortcut icon" href="../static/favicon.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'favicon.jpg' %}" type="image/x-icon">
     <title>{% block title%} {% endblock %}</title>
     
      <style>
@@ -80,7 +81,7 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
   <br><br><br><br><br>
   <div class="row ">
     <div class="col-12 col-md">
-      <img class="mb-2" src="../static/favicon.jpg" alt="" width="50" height="30">
+      <img class="mb-2" src="{% static 'favicon.jpg' %}" alt="" width="50" height="30">
       <small class="d-block mb-3 text-muted mx-3">&copy; 2009-2020</small>
     </div>
     <div class="col-6 col-md">
