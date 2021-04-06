@@ -26,19 +26,41 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/shop">Home <span class="sr-only">(current)</span></a>
-      </li>
+      {% if '/shop/' == request.path %}
+        <li class="nav-item">
+          <a class="nav-link active" href="/shop">Home <span class="sr-only">(current)</span></a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/shop">Home <span class="sr-only">(current)</span></a>
+        </li>
+      {% endif %}
+      
       <li class="nav-item">
-        <a class="nav-link" href="/shop/about">About Us</a>
+        {% if '/shop/about' in request.path %}
+        <a class="nav-link active" href="/shop/about">About Us</a>
+
+        {% else %}
+          <a class="nav-link" href="/shop/about">About Us</a>
+          {%endif %}
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="/shop/tracker">Tracker</a>
+        {% if '/shop/tracker' in request.path %}
+        <a class="nav-link active" href="/shop/tracker">Tracker</a>
+
+        {% else %}
+          <a class="nav-link" href="/shop/tracker">Tracker</a>
+        {%endif %}
       </li>
 
        <li class="nav-item">
-        <a class="nav-link" href="/shop/contact">Contact Us</a>
+        {% if '/shop/contact' in request.path %}
+        <a class="nav-link active" href="/shop/contact">Contact Us</a>
+
+        {% else %}
+          <a class="nav-link" href="/shop/contact">Contact Us</a>
+        {% endif %}
       </li>
 
 
