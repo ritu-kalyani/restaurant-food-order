@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 class Product(models.Model):
-    product_id = models.AutoField
     product_name = models.CharField(max_length=50)
     category = models.CharField(max_length=50, default="")
     # subcategory = models.CharField(max_length=50, default="")
@@ -37,7 +36,7 @@ class Orders(models.Model):
     phone = models.CharField(max_length=30, default="")
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 class OrderUpdate(models.Model):
     update_id  = models.AutoField(primary_key=True)
