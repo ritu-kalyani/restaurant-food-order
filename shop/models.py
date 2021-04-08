@@ -45,5 +45,20 @@ class OrderUpdate(models.Model):
     timestamp = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.update_desc[0:7] + "..."        
+        return self.update_desc[0:7] + "..."      
+
+class User(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+    fullname = models.CharField(max_length=255)
+    email= models.CharField(max_length=255)
+    address = models.CharField(max_length=500)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=50)
+    zip_code = models.CharField(max_length=30)
+    phone = models.CharField(max_length=30, default="")
+
+    def __str__(self):
+        return f"{self.username}"
    

@@ -69,5 +69,8 @@ class TestView(TestCase):
     def test_contact_GET(self):
         response = self.client.post(self.contact_url, { 'name': 'Temp', 'email': 'temp@gmail.com', 'phone':'4521234523', "desc": 'Temp Description' })
         self.assertTemplateUsed(self.client.get(self.contact_url), 'contact.html')
-    
+
+
+
+
 

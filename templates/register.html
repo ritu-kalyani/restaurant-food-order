@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}
+    Register
+{% endblock %}
+{% block body %}
+    <form name="my-form" method="post" style="margin-top: 50px" action='/shop/register/'>
+        {% csrf_token %}
+        <div class="form-group row">
+            <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
+            <div class="col-md-6">
+                <input type="text" id="username" class="form-control" name="username" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+            <div class="col-md-6">
+                <input type="password" id="password" class="form-control" name="full-password" required>
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <label for="full_name" class="col-md-4 col-form-label text-md-right">Full Name</label>
+            <div class="col-md-6">
+                <input type="text" id="full_name" class="form-control" name="full-name" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
+            <div class="col-md-6">
+                <input type="text" id="email_address" class="form-control" name="email-address" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="phone_number" class="col-md-4 col-form-label text-md-right">Phone Number</label>
+            <div class="col-md-6">
+                <input type="text" id="phone_number" name='phone_number' class="form-control" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="present_address" class="col-md-4 col-form-label text-md-right">Present Address</label>
+            <div class="col-md-6">
+                <input type="text" id="present_address" class="form-control" name='present_address'required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="city" class="col-md-4 col-form-label text-md-right">City</label>
+            <div class="col-md-6">
+                <input type="text" id="city" class="form-control" name="city" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="state" class="col-md-4 col-form-label text-md-right">State</label>
+            <div class="col-md-6">
+                <input type="text" id="state" class="form-control" name="state" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="zip" class="col-md-4 col-form-label text-md-right">Zipcode</label>
+            <div class="col-md-6">
+                <input type="text" id="zip" class="form-control" name="zip" required>
+            </div>
+        </div>
+
+            <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary">
+                Register
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block js %}
+{% endblock%}

@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from .models import Product,Contact,Orders,OrderUpdate
+from .models import Product,Contact,Orders,OrderUpdate, User
 from math import ceil
 from django.http import HttpResponse
 import json
+from django.views.decorators.csrf import csrf_protect
+
 
 # import logging library
 # import logging
@@ -118,4 +120,15 @@ def checkout(request):
 
 def faq(request):
     return render(request,'faq.html')
+
+@csrf_protect
+def register(request):
+    if request.method == 'POST':
+        data = request.POST
+        user = User(username=data['username'], password=data['full-password'], fullname=data['full-name'], email=data['email-address'], address=data['present_address'], city=data['city'], state=data['state'], zip_code=data['zip'], phone=data['phone_number'])
+        user.save()
+    return render(request,'register.html')
+
+def login(request):
+    pass
      
