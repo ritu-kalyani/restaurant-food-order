@@ -61,25 +61,35 @@
         {% else %}
           <a class="nav-link" href="/shop/contact">Contact Us</a>
         {% endif %}
-      </li>
-
-      <li class="nav-item">
-        {% if '/shop/register' in request.path %}
-        <a class="nav-link active" href="/shop/register">Register</a>
-
-        {% else %}
-          <a class="nav-link" href="/shop/register">Register</a>
-        {% endif %}
-      </li>
+       </li>
       
-      <li class="nav-item">
-        {% if '/shop/login' in request.path %}
-        <a class="nav-link active" href="/shop/login">Login</a>
+      {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a href="#" class="nav-link active">Welcome , {{ request.user }} </a>
+        </li>
 
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/logout">Logout</a>
+        </li>
         {% else %}
-          <a class="nav-link" href="/shop/login">Login</a>
-        {% endif %}
-      </li>
+          <li class="nav-item">
+            {% if '/shop/login' in request.path %}
+            <a class="nav-link active" href="/shop/login">Login</a>
+    
+            {% else %}
+              <a class="nav-link" href="/shop/login">Login</a>
+            {% endif %}
+          </li>
+
+          <li class="nav-item">
+            {% if '/shop/register' in request.path %}
+            <a class="nav-link active" href="/shop/register">Register</a>
+    
+            {% else %}
+              <a class="nav-link" href="/shop/register">Register</a>
+            {% endif %}
+          </li>
+      {% endif %}
 
     </ul>
     <form method='get' action='/shop/search/' class="form-inline my-2 my-lg-0">

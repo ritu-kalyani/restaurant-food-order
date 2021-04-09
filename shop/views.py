@@ -4,9 +4,9 @@ from math import ceil
 from django.http import HttpResponse
 import json
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-
+from django.contrib.auth.decorators import login_required
 
 # import logging library
 # import logging
@@ -133,6 +133,7 @@ def register(request):
         userData.save()
     return render(request,'register.html')
 
+@csrf_protect
 def login(request):
     if request.method == 'POST':
         data = request.POST
@@ -143,4 +144,9 @@ def login(request):
 
             return redirect('/shop/')
     return render(request,'login.html')
+
+@login_required(login_url='/shop/login')
+def logout(request):
+    auth_logout(request)
+    return redirect('/shop/')
      
