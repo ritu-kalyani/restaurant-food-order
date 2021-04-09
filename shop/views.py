@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Product,Contact,Orders,OrderUpdate, UserData
 from math import ceil
 from django.http import HttpResponse
 import json
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
 
 
@@ -133,10 +133,14 @@ def register(request):
         userData.save()
     return render(request,'register.html')
 
-@csrf_protect
 def login(request):
     if request.method == 'POST':
         data = request.POST
+        user = authenticate(username=data['username'], password=data['password'])
         
+        if user is not None:
+            auth_login(request, user)
+
+            return redirect('/shop/')
     return render(request,'login.html')
      
