@@ -1,3 +1,4 @@
+from shop.views import checkout
 from django.http import response
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -35,6 +36,7 @@ class TestView(TestCase):
         self.faq_url = reverse('faq')
         self.register_url=reverse('Register')
         self.login_url = reverse('Login')
+        self.logout_url = reverse('Logout')
 
     def test_index_GET(self):
         response = self.client.get(self.index_url)
@@ -71,6 +73,17 @@ class TestView(TestCase):
         response = self.client.post(self.contact_url, { 'name': 'Temp', 'email': 'temp@gmail.com', 'phone':'4521234523', "desc": 'Temp Description' })
         self.assertTemplateUsed(self.client.get(self.contact_url), 'contact.html')
 
+    def test_tracker_GET(self):
+        self.assertTemplateUsed(self.client.get(self.tracker_url), 'tracker.html')
+
+    def test_logout_GET(self):
+        # Check if login is requiring for logout or not
+        self.assertEqual(self.client.get(self.logout_url).status_code, 302)
+
+        # After successful login
+        self.test_valid_login_POST()
+        self.assertEqual(self.client.get(self.logout_url).status_code, 302)
+
     def test_register_valid_POST(self):
         # Check using valid credentials
         response = self.client.post(self.register_url, {'username': 'Temp Username', 'full-name': 'Temp Full Name', 'email-address': 'temp@gmail.com', 'present_address': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip': 'Temp zip', 'phone_number': '345636564', 'full-password': 'tempPass'})
@@ -97,7 +110,20 @@ class TestView(TestCase):
         self.test_valid_login_POST()
         response = self.client.post(self.checkout_url, {'itemsJson': {}, 'name': 'Temp Full Name', 'email': 'temp@gmail.com', 'address1': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip_code': 'Temp zip', 'phone': '2354353'})
         self.assertEquals(response.status_code, 200)
-        
+        self.assertTemplateUsed(self.client.get(self.checkout_url), 'checkout.html')
+
+    def test_tracker_POST(self):
+        # Creating dummy data
+        data =  {'itemsJson': {}, 'name': 'Temp Full Name', 'email': 'temp@gmail.com', 'address1': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip_code': 'Temp zip', 'phone': '2354353'}
+        order = Orders(order_id=5,items_json=data['itemsJson'], name=data['name'], email=data['email'], address=data['address1'], city=data['city'],
+                       state=data['state'], zip_code=data['zip_code'], phone=data['phone'], user_id=self.user)
+        order.save()
+
+        orderUpdate = OrderUpdate(order_id=5, update_id=5, update_desc='Received')
+        orderUpdate.save()
+
+        response = self.client.post(self.tracker_url, {'orderId': 5, 'email': data['email']})
+        self.assertEquals(response.status_code, 200)
         
 
 

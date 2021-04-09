@@ -95,9 +95,9 @@ def tracker(request):
                     response = json.dumps({"status":"success", "updates": updates, "itemsJson": order[0].items_json}, default=str)
                 return HttpResponse(response)
             else:
-                return HttpResponse('{"status":"noitem"}')
+                return HttpResponse('{"status":"noitem"}', status=404)
         except Exception as e:
-            return HttpResponse('{"status":"error"}')
+            return HttpResponse('{"status":"error"}', status=404)
 
     if request.user.is_authenticated:
         userData = UserData.objects.get(username=request.user.username)
