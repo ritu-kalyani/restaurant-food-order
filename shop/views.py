@@ -100,6 +100,8 @@ def productview(request,id):
      product =Product.objects.filter(id=id)
      return render(request,"prodview.html",{'product':product[0]})
 
+@login_required(login_url='/shop/login')
+@csrf_protect
 def checkout(request):
     if request.method=="POST":
         items_json = request.POST.get('itemsJson', '')
@@ -118,7 +120,10 @@ def checkout(request):
         thank = True
         id = order.order_id
         return render(request, 'checkout.html', {'thank':thank, 'id': id})
-    return render(request, 'checkout.html')
+
+    userData = UserData.objects.get(username=request.user.username)
+    context = {'user': userData}
+    return render(request, 'checkout.html', context)
 
 def faq(request):
     return render(request,'faq.html')
