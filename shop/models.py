@@ -25,6 +25,19 @@ class Contact(models.Model):
     def __str__(self):
         return self.name        
 
+class UserData(models.Model):
+    username = models.CharField(max_length=255, primary_key=True)
+    fullname = models.CharField(max_length=255)
+    email= models.CharField(max_length=255)
+    address = models.CharField(max_length=500)
+    city = models.CharField(max_length=200)
+    state = models.CharField(max_length=50)
+    zip_code = models.CharField(max_length=30)
+    phone = models.CharField(max_length=30, default="")
+
+    def __str__(self):
+        return f"{self.username}"
+
 class Orders(models.Model):
     order_id = models.AutoField(primary_key=True)
     items_json = models.CharField(max_length=5000)
@@ -35,6 +48,7 @@ class Orders(models.Model):
     state = models.CharField(max_length=50)
     zip_code = models.CharField(max_length=30)
     phone = models.CharField(max_length=30, default="")
+    user_id = models.ForeignKey(UserData, on_delete=models.DO_NOTHING, related_name="user_id")
 
     def __str__(self):
         return f"{self.name}"
@@ -47,18 +61,4 @@ class OrderUpdate(models.Model):
 
     def __str__(self):
         return self.update_desc[0:7] + "..."      
-
-class UserData(models.Model):
-    username = models.CharField(max_length=255, primary_key=True)
-    password = models.CharField(max_length=255)
-    fullname = models.CharField(max_length=255)
-    email= models.CharField(max_length=255)
-    address = models.CharField(max_length=500)
-    city = models.CharField(max_length=200)
-    state = models.CharField(max_length=50)
-    zip_code = models.CharField(max_length=30)
-    phone = models.CharField(max_length=30, default="")
-
-    def __str__(self):
-        return f"{self.username}"
    

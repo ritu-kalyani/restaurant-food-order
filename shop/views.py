@@ -137,7 +137,7 @@ def faq(request):
 def register(request):
     if request.method == 'POST':
         data = request.POST
-        user = UserData(username=data['username'], password=data['full-password'], fullname=data['full-name'], email=data['email-address'], address=data['present_address'], city=data['city'], state=data['state'], zip_code=data['zip'], phone=data['phone_number'])
+        user = UserData(username=data['username'],fullname=data['full-name'], email=data['email-address'], address=data['present_address'], city=data['city'], state=data['state'], zip_code=data['zip'], phone=data['phone_number'])
         user.save()
         userData = User.objects.create_user(username=data['username'], password=data['full-password'], email=data['email-address'])
         userData.save()
