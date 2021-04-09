@@ -62,6 +62,7 @@ def search(request):
 def about(request):
     return render(request,"about.html")
 
+@login_required(login_url='/shop/login')
 def contact(request):
     thank = False
     if request.method=="POST":
@@ -72,7 +73,11 @@ def contact(request):
         contact=Contact(name=name,email=email,phone=phone,desc=desc)
         contact.save()
         thank = True
-    return render(request,"contact.html",{'thank' : thank})        
+    
+    userData = UserData.objects.get(username=request.user.username)
+    context = {'user': userData, 'thank': thank}
+
+    return render(request,"contact.html",context)        
 
 def tracker(request):
     if request.method=="POST":
