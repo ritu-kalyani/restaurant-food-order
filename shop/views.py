@@ -97,8 +97,12 @@ def tracker(request):
         except Exception as e:
             return HttpResponse('{"status":"error"}')
 
-    return render(request, 'tracker.html')
-
+    if request.user.is_authenticated:
+        userData = UserData.objects.get(username=request.user.username)
+        context={'orders': list(Orders.objects.filter(user_id=userData))}
+        return render(request, 'tracker.html', context)
+    else:
+        return render(request, 'tracker.html')
 
 def productview(request,id):
     #fetch the products using id 
@@ -118,7 +122,7 @@ def checkout(request):
         zip_code = request.POST.get('zip_code', '')
         phone = request.POST.get('phone', '')
         order = Orders(items_json=items_json, name=name, email=email, address=address, city=city,
-                       state=state, zip_code=zip_code, phone=phone)
+                       state=state, zip_code=zip_code, phone=phone, user_id=UserData.objects.get(username=request.user.username))
         order.save()
         update = OrderUpdate(order_id = order.order_id,update_desc ="Your Order Has Been Placed")
         update.save()

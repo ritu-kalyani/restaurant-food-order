@@ -34,6 +34,20 @@
             </ul>
         </div>
     </div>
+
+    {% if request.user.is_authenticated %}
+    <div class="col my-4">
+        <h2>Some Previous Order Details</h2>
+        <div class="my-4">
+            <ol class="list-group" id="items">
+                {% for order in orders %}
+                    <li>{{order.order_id}}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    {% endif %}
+    
 </div>
 {% endblock %}
 {% block js %}
