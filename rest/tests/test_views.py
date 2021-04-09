@@ -73,16 +73,15 @@ class TestView(TestCase):
 
     def test_register_valid_POST(self):
         # Check using valid credentials
-        response = self.client.post(self.register_url, {'username': 'Temp Username', 'full-name': 'Temp Full Name', 'email-address': 'temp@gmail.com', 'present_address': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip': 'Temp zip', 'phone_number': 'Phone No', 'full-password': 'tempPass'})
+        response = self.client.post(self.register_url, {'username': 'Temp Username', 'full-name': 'Temp Full Name', 'email-address': 'temp@gmail.com', 'present_address': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip': 'Temp zip', 'phone_number': '345636564', 'full-password': 'tempPass'})
         self.assertEquals(response.status_code, 200)
 
     def test_register_invalid_POST(self):
         self.test_register_valid_POST()
         # Check using invalid credentials
-        false = self.client.post(self.register_url, {'username': 'Temp Username', 'full-name': 'Temp Full Name', 'email-address': 'temp@gmail.com', 'present_address': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip': 'Temp zip', 'phone_number': 'Phone No', 'full-password': 'tempPass'})
+        false = self.client.post(self.register_url, {'username': 'Temp Username', 'full-name': 'Temp Full Name', 'email-address': 'temp@gmail.com', 'present_address': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip': 'Temp zip', 'phone_number': '23432432', 'full-password': 'tempPass'})
         self.assertEquals(false.status_code, 409)
        
-
     def test_valid_login_POST(self):
         # Check using valid credentials
         self.test_register_valid_POST()
@@ -93,5 +92,13 @@ class TestView(TestCase):
         # Check using invalid credentials
         false_creds = self.client.post(self.login_url, {'username': 'Temp Username', 'password': 'tempPass234'})
         self.assertEquals(false_creds.status_code, 401)
+
+    def test_checkout_POST(self):
+        self.test_valid_login_POST()
+        response = self.client.post(self.checkout_url, {'itemsJson': {}, 'name': 'Temp Full Name', 'email': 'temp@gmail.com', 'address1': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip_code': 'Temp zip', 'phone': '2354353'})
+        self.assertEquals(response.status_code, 200)
+        
+        
+
 
     
