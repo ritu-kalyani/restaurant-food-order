@@ -45,14 +45,34 @@ class TestView(TestCase):
         response = self.client.get(self.about_url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'about.html')
-
     
     def test_product_id_GET(self):
         response = self.client.get(self.product_id_url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'prodview.html')
+    
+    def test_login_GET(self):
+        response = self.client.get(self.login_url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'login.html')
+        
+    def test_register_GET(self):
+        response = self.client.get(self.register_url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'register.html')
+
+    def test_faq_GET(self):
+        response = self.client.get(self.faq_url)
+        self.assertTemplateUsed(response, 'faq.html')
+
+    def test_contact_GET(self):
+        # Because login is necessary
+        self.test_valid_login_POST()
+        response = self.client.post(self.contact_url, { 'name': 'Temp', 'email': 'temp@gmail.com', 'phone':'4521234523', "desc": 'Temp Description' })
+        self.assertTemplateUsed(self.client.get(self.contact_url), 'contact.html')
 
     def test_register_valid_POST(self):
+        # Check using valid credentials
         response = self.client.post(self.register_url, {'username': 'Temp Username', 'full-name': 'Temp Full Name', 'email-address': 'temp@gmail.com', 'present_address': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip': 'Temp zip', 'phone_number': 'Phone No', 'full-password': 'tempPass'})
         self.assertEquals(response.status_code, 200)
 
@@ -63,22 +83,15 @@ class TestView(TestCase):
         self.assertEquals(false.status_code, 409)
        
 
-    def test_login_POST(self):
+    def test_valid_login_POST(self):
         # Check using valid credentials
         self.test_register_valid_POST()
         response = self.client.post(self.login_url, {'username': 'Temp Username', 'password': 'tempPass'})
         self.assertEquals(response.status_code, 302)
-
+    
+    def test_invalid_login_POST(self):
         # Check using invalid credentials
         false_creds = self.client.post(self.login_url, {'username': 'Temp Username', 'password': 'tempPass234'})
         self.assertEquals(false_creds.status_code, 401)
 
-    def test_login_GET(self):
-        response = self.client.get(self.login_url)
-        self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'login.html')
-        
-    def test_register_GET(self):
-        response = self.client.get(self.register_url)
-        self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'register.html')
+    
