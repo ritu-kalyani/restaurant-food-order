@@ -7,6 +7,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+import sqlite3
+from django.db.utils import IntegrityError
 
 # import logging library
 # import logging
@@ -140,11 +142,17 @@ def faq(request):
 @csrf_protect
 def register(request):
     if request.method == 'POST':
-        data = request.POST
-        user = UserData(username=data['username'],fullname=data['full-name'], email=data['email-address'], address=data['present_address'], city=data['city'], state=data['state'], zip_code=data['zip'], phone=data['phone_number'])
-        user.save()
-        userData = User.objects.create_user(username=data['username'], password=data['full-password'], email=data['email-address'])
-        userData.save()
+        try:
+            data = request.POST
+            user = UserData(username=data['username'],fullname=data['full-name'], email=data['email-address'], address=data['present_address'], city=data['city'], state=data['state'], zip_code=data['zip'], phone=data['phone_number'])
+            user.save()
+            userData = User.objects.create_user(username=data['username'], password=data['full-password'], email=data['email-address'])
+            userData.save()
+        except sqlite3.IntegrityError as e:
+            return HttpResponse('409: Given User already exists', status=409)
+        
+        except IntegrityError as e:
+            return HttpResponse('409: Given User already exists', status=409)
     return render(request,'register.html')
 
 @csrf_protect
@@ -157,6 +165,9 @@ def login(request):
             auth_login(request, user)
 
             return redirect('/shop/')
+        
+        else:
+            return HttpResponse('401 Unauthorized', status=401)
     return render(request,'login.html')
 
 @login_required(login_url='/shop/login')

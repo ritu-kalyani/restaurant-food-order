@@ -3,6 +3,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from shop.models import Product, Contact, Orders, OrderUpdate, UserData
 import json
+import sqlite3
 
 class TestView(TestCase):
     def setUp(self):
@@ -33,6 +34,7 @@ class TestView(TestCase):
         self.checkout_url = reverse('Checkout')
         self.faq_url = reverse('faq')
         self.register_url=reverse('Register')
+        self.login_url = reverse('Login')
 
     def test_index_GET(self):
         response = self.client.get(self.index_url)
@@ -49,3 +51,34 @@ class TestView(TestCase):
         response = self.client.get(self.product_id_url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'prodview.html')
+
+    def test_register_valid_POST(self):
+        response = self.client.post(self.register_url, {'username': 'Temp Username', 'full-name': 'Temp Full Name', 'email-address': 'temp@gmail.com', 'present_address': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip': 'Temp zip', 'phone_number': 'Phone No', 'full-password': 'tempPass'})
+        self.assertEquals(response.status_code, 200)
+
+    def test_register_invalid_POST(self):
+        self.test_register_valid_POST()
+        # Check using invalid credentials
+        false = self.client.post(self.register_url, {'username': 'Temp Username', 'full-name': 'Temp Full Name', 'email-address': 'temp@gmail.com', 'present_address': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip': 'Temp zip', 'phone_number': 'Phone No', 'full-password': 'tempPass'})
+        self.assertEquals(false.status_code, 409)
+       
+
+    def test_login_POST(self):
+        # Check using valid credentials
+        self.test_register_valid_POST()
+        response = self.client.post(self.login_url, {'username': 'Temp Username', 'password': 'tempPass'})
+        self.assertEquals(response.status_code, 302)
+
+        # Check using invalid credentials
+        false_creds = self.client.post(self.login_url, {'username': 'Temp Username', 'password': 'tempPass234'})
+        self.assertEquals(false_creds.status_code, 401)
+
+    def test_login_GET(self):
+        response = self.client.get(self.login_url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'login.html')
+        
+    def test_register_GET(self):
+        response = self.client.get(self.register_url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'register.html')

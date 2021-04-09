@@ -25,7 +25,7 @@ class Contact(models.Model):
         return self.name        
 
 class UserData(models.Model):
-    username = models.CharField(max_length=255, primary_key=True)
+    username = models.CharField(max_length=255, primary_key=True, unique=True)
     fullname = models.CharField(max_length=255)
     email= models.CharField(max_length=255)
     address = models.CharField(max_length=500)
