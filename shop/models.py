@@ -47,9 +47,8 @@ class OrderUpdate(models.Model):
     def __str__(self):
         return self.update_desc[0:7] + "..."      
 
-class User(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=255)
+class UserData(models.Model):
+    username = models.CharField(max_length=255, primary_key=True)
     password = models.CharField(max_length=255)
     fullname = models.CharField(max_length=255)
     email= models.CharField(max_length=255)

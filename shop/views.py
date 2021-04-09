@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from .models import Product,Contact,Orders,OrderUpdate, User
+from .models import Product,Contact,Orders,OrderUpdate, UserData
 from math import ceil
 from django.http import HttpResponse
 import json
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 
 # import logging library
@@ -125,10 +127,16 @@ def faq(request):
 def register(request):
     if request.method == 'POST':
         data = request.POST
-        user = User(username=data['username'], password=data['full-password'], fullname=data['full-name'], email=data['email-address'], address=data['present_address'], city=data['city'], state=data['state'], zip_code=data['zip'], phone=data['phone_number'])
+        user = UserData(username=data['username'], password=data['full-password'], fullname=data['full-name'], email=data['email-address'], address=data['present_address'], city=data['city'], state=data['state'], zip_code=data['zip'], phone=data['phone_number'])
         user.save()
+        userData = User.objects.create_user(username=data['username'], password=data['full-password'], email=data['email-address'])
+        userData.save()
     return render(request,'register.html')
 
+@csrf_protect
 def login(request):
-    pass
+    if request.method == 'POST':
+        data = request.POST
+        
+    return render(request,'login.html')
      

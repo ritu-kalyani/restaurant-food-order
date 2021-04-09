@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}
+    Login
+{% endblock %}
+{% block body %}
+    <form name="my-form" method="post" style="margin-top: 50px; align-items: center;" action='/shop/login/'>
+        {% csrf_token %}
+        <div class="form-group row">
+            <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
+            <div class="col-md-6">
+                <input type="text" id="username" class="form-control" name="username" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+            <div class="col-md-6">
+                <input type="password" id="password" class="form-control" name="password" required>
+            </div>
+        </div>
+
+        <div class="col-md-6 offset-md-4">
+            <button type="submit" class="btn btn-primary">
+            Login
+            </button>
+        </div>
+    </form>
+    
+
+    <div class="form-group row" style="visibility: hidden;">
+        <label for="city" class="col-md-4 col-form-label text-md-right">City</label>
+        <div class="col-md-6">
+            <input type="text" id="city" class="form-control" name="city" required>
+        </div>
+    </div>
+
+    <div class="form-group row" style="visibility: hidden;">
+        <label for="state" class="col-md-4 col-form-label text-md-right">State</label>
+        <div class="col-md-6">
+            <input type="text" id="state" class="form-control" name="state" required>
+        </div>
+    </div>
+
+    <div class="form-group row" style="visibility: hidden;">
+        <label for="zip" class="col-md-4 col-form-label text-md-right">Zipcode</label>
+        <div class="col-md-6">
+            <input type="text" id="zip" class="form-control" name="zip" required>
+        </div>
+    </div>
+
+    <div class="form-group row" style="visibility: hidden;">
+        <label for="zip" class="col-md-4 col-form-label text-md-right">Zipcode</label>
+        <div class="col-md-6">
+            <input type="text" id="zip" class="form-control" name="zip" required>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block js %}
+{% endblock%}
