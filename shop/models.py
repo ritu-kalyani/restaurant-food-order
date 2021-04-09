@@ -21,7 +21,6 @@ class Contact(models.Model):
     phone=models.CharField(max_length=30,default="")
     desc=models.CharField(max_length=2000,default="")
    
-
     def __str__(self):
         return self.name        
 
