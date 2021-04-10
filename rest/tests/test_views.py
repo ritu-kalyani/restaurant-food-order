@@ -100,6 +100,8 @@ class TestView(TestCase):
         self.test_register_valid_POST()
         response = self.client.post(self.login_url, {'username': 'Temp Username', 'password': 'tempPass'})
         self.assertEquals(response.status_code, 302)
+        # After redirect correct template used
+        self.assertTemplateUsed(self.client.get(self.index_url), 'index2.html')
     
     def test_invalid_login_POST(self):
         # Check using invalid credentials
