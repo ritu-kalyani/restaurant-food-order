@@ -105,6 +105,20 @@
     document.location = "/shop";
     {% endif %}
 
+    let data;
+    let conversion = 0.013;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        data = JSON.parse(xhttp.responseText);
+        conversion = 1 / data['quotes']['USDINR']
+    }
+
+    xhttp.open('GET', 'http://api.currencylayer.com/live?access_key=8f1af28562411e25df44380e2e67959f&format=1', true)
+    xhttp.send()
+
+    this.totalPrice = Math.round(this.totalPrice * conversion)
+
     paypal.Buttons({
 
         style: {
@@ -120,7 +134,7 @@
             return actions.order.create({
                 purchase_units: [{
                     amount: {
-                        value: this.totalPrice.toString()
+                        value: totalPrice.toString()
                     }
                 }]
             });
