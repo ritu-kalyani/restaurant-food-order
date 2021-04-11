@@ -60,6 +60,7 @@
                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Your Number" value="{{ user.phone }}" required>
             </div>
             <button type="submit" class="btn btn-primary">Place Order</button>
+            <div id="paypal-button-container"></div>
         </form>
     </div>
 </div>
@@ -103,5 +104,34 @@
     localStorage.clear();
     document.location = "/shop";
     {% endif %}
+
+    paypal.Buttons({
+
+        style: {
+            shape: 'rect',
+            color: 'blue',
+            layout: 'vertical',
+            label: 'paypal',
+            
+        },
+
+        // Set up the transaction
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: this.totalPrice.toString()
+                    }
+                }]
+            });
+        },
+
+        onApprove: (data, actions) => {
+            alert('Completed')
+
+        }
+
+
+    }).render('#paypal-button-container');
 </script>
 {% endblock %}
