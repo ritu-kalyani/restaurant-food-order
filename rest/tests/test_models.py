@@ -16,7 +16,8 @@ class TestModels(TestCase):
             state='Temp',
             zip_code='temp',
             phone='4521234523',
-            user_id=self.user
+            user_id=self.user,
+            total=0
         )
 
     def test_model_is_created(self):

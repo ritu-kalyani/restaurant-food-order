@@ -110,15 +110,15 @@ class TestView(TestCase):
 
     def test_checkout_POST(self):
         self.test_valid_login_POST()
-        response = self.client.post(self.checkout_url, {'itemsJson': {}, 'name': 'Temp Full Name', 'email': 'temp@gmail.com', 'address1': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip_code': 'Temp zip', 'phone': '2354353'})
+        response = self.client.post(self.checkout_url, {'total': 0,'itemsJson': {}, 'name': 'Temp Full Name', 'email': 'temp@gmail.com', 'address1': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip_code': 'Temp zip', 'phone': '2354353'})
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(self.client.get(self.checkout_url), 'checkout.html')
 
     def test_tracker_POST(self):
         # Creating dummy data
-        data =  {'itemsJson': {}, 'name': 'Temp Full Name', 'email': 'temp@gmail.com', 'address1': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip_code': 'Temp zip', 'phone': '2354353'}
+        data =  {'total': 0,'itemsJson': {}, 'name': 'Temp Full Name', 'email': 'temp@gmail.com', 'address1': 'Temp Address', 'city': 'Temp City', 'state': 'Temp State', 'zip_code': 'Temp zip', 'phone': '2354353'}
         order = Orders(order_id=5,items_json=data['itemsJson'], name=data['name'], email=data['email'], address=data['address1'], city=data['city'],
-                       state=data['state'], zip_code=data['zip_code'], phone=data['phone'], user_id=self.user)
+                       state=data['state'], zip_code=data['zip_code'], phone=data['phone'], user_id=self.user, total=data['total'])
         order.save()
 
         orderUpdate = OrderUpdate(order_id=5, update_id=5, update_desc='Received')
