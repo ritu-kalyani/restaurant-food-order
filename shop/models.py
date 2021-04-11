@@ -48,6 +48,7 @@ class Orders(models.Model):
     zip_code = models.CharField(max_length=30)
     phone = models.CharField(max_length=30, default="")
     user_id = models.ForeignKey(UserData, on_delete=models.DO_NOTHING, related_name="user_id")
+    total = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.name}"

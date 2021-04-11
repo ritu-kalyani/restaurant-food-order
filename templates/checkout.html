@@ -21,6 +21,7 @@
         <form method="post" action="/shop/checkout/">
             {% csrf_token %}
             <input type="hidden" name="itemsJson" id="itemsJson">
+            <input type="hidden" id="total" name="total" value="">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name">Name</label>
@@ -94,7 +95,7 @@
     }
     document.getElementById('cart').innerHTML = sum;
     document.getElementById('totalPrice').innerHTML = totalPrice;
-
+    $('#total').attr('value', this.totalPrice)
 
     $('#itemsJson').val(JSON.stringify(cart));
     {% if thank %}
