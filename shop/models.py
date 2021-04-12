@@ -49,6 +49,7 @@ class Orders(models.Model):
     phone = models.CharField(max_length=30, default="")
     user_id = models.ForeignKey(UserData, on_delete=models.DO_NOTHING, related_name="user_id")
     total = models.IntegerField(default=0)
+    payment_id = models.CharField(max_length=200, default="")
 
     def __str__(self):
         return f"{self.name}"

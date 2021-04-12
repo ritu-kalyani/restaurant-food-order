@@ -17,7 +17,8 @@ class TestModels(TestCase):
             zip_code='temp',
             phone='4521234523',
             user_id=self.user,
-            total=0
+            total=0,
+            payment_id='4XFGESFSEF234'
         )
 
     def test_model_is_created(self):

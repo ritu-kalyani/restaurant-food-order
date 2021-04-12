@@ -141,8 +141,9 @@
         },
 
         onApprove: (data, actions) => {
-            alert('Completed')
-
+            return actions.order.capture().then(details => {
+                console.log(details);
+            })
         }
 
 

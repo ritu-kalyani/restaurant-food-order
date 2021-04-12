@@ -137,6 +137,9 @@ def checkout(request):
     context = {'user': userData}
     return render(request, 'checkout.html', context)
 
+def checkoutData(request):
+    pass
+
 def faq(request):
     return render(request,'faq.html')
 
