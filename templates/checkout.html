@@ -59,7 +59,6 @@
                 <label for="phone">Phone Number</label>
                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Your Number" value="{{ user.phone }}" required>
             </div>
-            <button type="submit" class="btn btn-primary">Place Order</button>
             <div id="paypal-button-container"></div>
         </form>
     </div>
@@ -142,7 +141,28 @@
 
         onApprove: (data, actions) => {
             return actions.order.capture().then(details => {
-                console.log(details);
+                if (details['status'] == "COMPLETED") {
+                    $.ajax({
+                        method: 'post',
+                        data: {
+                            'itemsJson': $("#itemsJson").val(),
+                            'name': $('#name').val(),
+                            'email': $("#email").val(),
+                            'address1': $('#address1').val(),
+                            'address2': $("#address2").val(),
+                            'city': $('#city').val(),
+                            'state': $("#state").val(),
+                            'zip_code': $('#zip_code').val(),
+                            'phone': $("#phone").val(),
+                            'total': $('#total').val(),
+                            'payment_id': details['id']
+                        },
+                        url: 'http://127.0.0.1:8000/shop/checkoutData/',
+                        success: function(data) {
+                            console.log("Completed")
+                        }
+                    })
+                }
             })
         }
 

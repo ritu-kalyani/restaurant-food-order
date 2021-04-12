@@ -3,7 +3,7 @@ from .models import Product,Contact,Orders,OrderUpdate, UserData
 from math import ceil
 from django.http import HttpResponse
 import json
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -114,7 +114,14 @@ def productview(request,id):
 @login_required(login_url='/shop/login')
 @csrf_protect
 def checkout(request):
-    if request.method=="POST":
+    userData = UserData.objects.get(username=request.user.username)
+    context = {'user': userData}
+    return render(request, 'checkout.html', context)
+
+@csrf_exempt
+def checkoutData(request):
+    if request.method == 'POST':
+        print(request.POST)
         items_json = request.POST.get('itemsJson', '')
         name = request.POST.get('name', '')
         email = request.POST.get('email', '')
@@ -124,22 +131,15 @@ def checkout(request):
         zip_code = request.POST.get('zip_code', '')
         phone = request.POST.get('phone', '')
         total = request.POST.get('total', '')
+        payment_id = request.POST.get('payment_id', '')
         order = Orders(items_json=items_json, name=name, email=email, address=address, city=city,
-                       state=state, zip_code=zip_code, phone=phone, user_id=UserData.objects.get(username=request.user.username), total=int(total))
+                       state=state, zip_code=zip_code, phone=phone, payment_id=payment_id, user_id=UserData.objects.get(username=request.user.username), total=int(total))
         order.save()
         update = OrderUpdate(order_id = order.order_id,update_desc ="Your Order Has Been Placed")
         update.save()
         thank = True
         id = order.order_id
         return render(request, 'checkout.html', {'thank':thank, 'id': id})
-
-    userData = UserData.objects.get(username=request.user.username)
-    context = {'user': userData}
-    return render(request, 'checkout.html', context)
-
-def checkoutData(request):
-    pass
-
 def faq(request):
     return render(request,'faq.html')
 
